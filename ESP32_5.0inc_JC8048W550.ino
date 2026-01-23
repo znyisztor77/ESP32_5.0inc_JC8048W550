@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <TAMC_GT911.h>
 
-//Ez egy működő képes verzió
+//https://github.com/znyisztor77/ESP32_5.0inc_JC8048W550
 
 /* --- Kijelző beállítások --- */
 #define GFX_BL 2
