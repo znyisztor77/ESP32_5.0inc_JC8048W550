@@ -12,6 +12,12 @@ Libraries:
 > [!NOTE]
 > The storage contains a folder called configuration files. The files in the folder are configuration files. These files are required for the display and touch panel to start.
 
+- The lv.conf.h in the folder should be placed in the main folder of the arduino libraries
+- The files in the databus folder must be overwritten with the files in the GFX_Library_for_Arduino databus folder.
 ```
-/home/_USER_/Arduino/libraries/GFX_Library_for_Arduino/src/databus
+/home/_YOURUSERNAME_/Arduino/libraries/GFX_Library_for_Arduino/src/databus
 ```
+> [!IMPORTANT]
+> It is important that only the two files are overwritten, the rest remain in the folder.
+
+
