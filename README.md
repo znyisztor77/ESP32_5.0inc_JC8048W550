@@ -4,9 +4,10 @@
   
 Libraries:
 
-- #include <lvgl.h> ver. 9.4.
+- #include <lvgl.h> ver. 9.4. https://docs.lvgl.io/9.4/
 - #include <Arduino_GFX_Library.h> ver.1.6.4.  https://github.com/moononournation/Arduino_GFX
-- #include <Wire.h>
+- #include <Wire.h> communication with I2C devices (GT911 Capacitive touch panel)
 - #include <TAMC_GT911.h>  ver. 1.0.2  https://github.com/tamctec/gt911-arduino
 
-
+> [!NOTE]
+> The storage contains a folder called configuration files. The files in the folder are configuration files. These files are required for the display and touch panel to start.
