@@ -5,7 +5,7 @@
 
 //https://github.com/znyisztor77/ESP32_5.0inc_JC8048W550
 
-/* --- Kijelző beállítások --- */
+/* --- Display settings --- */
 #define GFX_BL 2
 Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
     40 /* DE */, 41 /* VSYNC */, 39 /* HSYNC */, 42 /* PCLK */,
@@ -19,7 +19,7 @@ Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
 Arduino_RGB_Display *gfx = new Arduino_RGB_Display(
     800 /* width */, 480 /* height */, rgbpanel, 0 /* rotation */, true /* auto_flush */);
 
-/* --- Érintőképernyő beállítások --- */
+/* --- Touch panel settings --- */
 #define TOUCH_SDA 19
 #define TOUCH_SCL 20
 #define TOUCH_INT 18
@@ -34,9 +34,9 @@ uint16_t *draw_buf;
 lv_obj_t * btn_exit;
 lv_obj_t * lbl_header;
 
-/* --- LVGL Interfész Függvények --- */
+/* --- LVGL Interface --- */
 
-// Kijelző frissítése (Display Flush)
+// Display update (Display Flush)
 void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map) {
     uint32_t w = lv_area_get_width(area);
     uint32_t h = lv_area_get_height(area);
@@ -47,7 +47,7 @@ void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map) {
     lv_display_flush_ready(disp);
 }
 
-// Érintőpanel olvasása (Input Read)
+// Touch panel read (Input Read)
 void my_touchpad_read(lv_indev_t *indev, lv_indev_data_t *data) {
     ts.read();
     if (ts.isTouched) {
@@ -64,22 +64,10 @@ uint32_t my_tick_cb() {
     return millis();
 }
 
-/* --- UI Létrehozása --- */
-void setup_ui() {
-    // Egy stílusos gomb létrehozása a képernyő közepén
-    lv_obj_t * btn = lv_button_create(lv_screen_active());
-    lv_obj_set_size(btn, 200, 80);
-    lv_obj_center(btn);
-
-    lv_obj_t * label = lv_label_create(btn);
-    lv_label_set_text(label, "LVGL 9.2 MUKODIK!");
-    lv_obj_center(label);
-}
-
 void setup() {
     Serial.begin(115200);
 
-    // 1. Hardverek indítása
+    // 1. Hardwer start
     pinMode(GFX_BL, OUTPUT);
     digitalWrite(GFX_BL, HIGH);
     
@@ -91,9 +79,9 @@ void setup() {
     ts.begin();
     ts.setRotation(ROTATION_INVERTED);
 
-    // 2. LVGL inicializálása
+    // 2. LVGL inicial
     lv_init();
-    lv_tick_set_cb(my_tick_cb); // Időzítés beállítása
+    lv_tick_set_cb(my_tick_cb); // Timer settings
 
     // Puffer lefoglalása a belső memóriában (vagy PSRAM-ban)
     draw_buf = (uint16_t *)heap_caps_malloc(DRAW_BUF_SIZE * sizeof(uint16_t), MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
@@ -109,8 +97,6 @@ void setup() {
     lv_indev_set_read_cb(indev, my_touchpad_read);
 
     // 5. Felület megrajzolása
-    //setup_ui();
-    // bottom layer opaque and white
   lv_obj_set_style_bg_opa(lv_layer_bottom(), LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_set_style_bg_color(lv_layer_bottom(), lv_color_white(), LV_PART_MAIN);
 
