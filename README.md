@@ -4,6 +4,7 @@
   
 Libraries:
 
+- Arduino IDE_ 2.3.7.
 - #include <lvgl.h> ver. 9.4. https://docs.lvgl.io/9.4/
 - #include <Arduino_GFX_Library.h> ver.1.6.4.  https://github.com/moononournation/Arduino_GFX
 - #include <Wire.h> communication with I2C devices (GT911 Capacitive touch panel)
