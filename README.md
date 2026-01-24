@@ -20,7 +20,7 @@ Libraries:
 > [!IMPORTANT]
 > It is important that only the two files are overwritten, the rest remain in the folder.
 
-The following changes should be made to the files.
+The following changes have been made to the files.
 
 ### Arduino_ESP32SPI.cpp:
 ```
