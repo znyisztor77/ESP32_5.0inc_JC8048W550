@@ -22,7 +22,7 @@ Libraries:
 
 The following changes should be made to the files.
 
-Arduino_ESP32SPI.cpp
+### Arduino_ESP32SPI.cpp:
 ```
 // old:
 _spi->dev->clock.val = spiFrequencyToClockDiv(old_apb / ((_spi->dev->clock.clkdiv_pre + 1) * (_spi->dev->clock.clkcnt_n + 1)));
@@ -38,5 +38,15 @@ _div = spiFrequencyToClockDiv(_speed);
 
 // new:
 _div = spiFrequencyToClockDiv(_spi, _speed);
+```
+### Arduino_ESP32SPIDMA.cpp:
+
+```
+// régi:
+_div = spiFrequencyToClockDiv(_speed);
+
+// új:
+_div = spiFrequencyToClockDiv(NULL, _speed);
+```
 
 
