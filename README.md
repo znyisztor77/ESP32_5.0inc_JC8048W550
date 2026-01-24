@@ -20,4 +20,23 @@ Libraries:
 > [!IMPORTANT]
 > It is important that only the two files are overwritten, the rest remain in the folder.
 
+The following changes should be made to the files.
+
+Arduino_ESP32SPI.cpp
+```
+// old:
+_spi->dev->clock.val = spiFrequencyToClockDiv(old_apb / ((_spi->dev->clock.clkdiv_pre + 1) * (_spi->dev->clock.clkcnt_n + 1)));
+
+// new:
+_spi->dev->clock.val = spiFrequencyToClockDiv(_spi, old_apb / ((_spi->dev->clock.clkdiv_pre + 1) * (_spi->dev->clock.clkcnt_n + 1)));
+```
+and
+
+```
+// old:
+_div = spiFrequencyToClockDiv(_speed);
+
+// new:
+_div = spiFrequencyToClockDiv(_spi, _speed);
+
 
