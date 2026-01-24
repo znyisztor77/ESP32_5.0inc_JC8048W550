@@ -11,3 +11,7 @@ Libraries:
 
 > [!NOTE]
 > The storage contains a folder called configuration files. The files in the folder are configuration files. These files are required for the display and touch panel to start.
+
+```
+/home/_USER_/Arduino/libraries/GFX_Library_for_Arduino/src/databus
+```
