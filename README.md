@@ -43,10 +43,10 @@ _div = spiFrequencyToClockDiv(_spi, _speed);
 ### Arduino_ESP32SPIDMA.cpp:
 
 ```
-// régi:
+// old:
 _div = spiFrequencyToClockDiv(_speed);
 
-// új:
+// new:
 _div = spiFrequencyToClockDiv(NULL, _speed);
 ```
 
