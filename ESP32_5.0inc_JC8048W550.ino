@@ -8,12 +8,12 @@
 /* --- Display settings --- */
 #define GFX_BL 2
 /*ROTATION:
-0 : [USB_LEFT]
-1 : [USB_DOWN]
+0 : [USB_LEFT] 
+1 : [USB_DOWN]  
 2 : [USB_RIGHT]
 3 : [USB_UP]
 */
-#define ROTATION 0
+#define ROTATION 3
 Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
   40 /* DE */, 41 /* VSYNC */, 39 /* HSYNC */, 42 /* PCLK */,
   45 /* R0 */, 48 /* R1 */, 47 /* R2 */, 21 /* R3 */, 14 /* R4 */,
@@ -96,50 +96,47 @@ void setup() {
   ts.begin();
   switch(ROTATION){
     case 1:
-      ts.setRotation(ROTATION_RIGHT);
+      ts.setRotation(ROTATION_RIGHT); //[USB_DOWN] 
       break;
 
     case 2:
-      ts.setRotation(ROTATION_NORMAL);
+      ts.setRotation(ROTATION_NORMAL); //[USB_RIGHT]
       break;
 
     case 3:
-      ts.setRotation(ROTATION_LEFT);
+      ts.setRotation(ROTATION_LEFT); //[USB_UP]
       break;
 
     default:
-      ts.setRotation(ROTATION_INVERTED);
+      ts.setRotation(ROTATION_INVERTED); //[USB_LEFT]
       break;
   }
   //ts.setRotation(ROTATION_NORMAL);
   //ts.setRotation(ROTATION_INVERTED);
   //ts.setRotation(ROTATION_LEFT);
   //ts.setRotation(ROTATION_RIGHT);
-  //ts.setResolution(480, 800);
-  // 2. LVGL inicial
+ 
   lv_init();
   lv_tick_set_cb(my_tick_cb);  // Timer settings
 
   // Puffer lefoglalása a belső memóriában (vagy PSRAM-ban)
   draw_buf = (uint16_t *)heap_caps_malloc(DRAW_BUF_SIZE * sizeof(uint16_t), MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
   lv_display_t *disp;
-  // 3. LVGL Kijelző regisztráció
+ //Screen rotation
   if(ROTATION == 0 || ROTATION ==2){
     disp = lv_display_create(800, 480);
   }
   else{
     disp = lv_display_create(480, 800);
   }
-  //lv_display_t *disp = lv_display_create(480, 800);
   lv_display_set_flush_cb(disp, my_disp_flush);
   lv_display_set_buffers(disp, draw_buf, NULL, DRAW_BUF_SIZE * sizeof(uint16_t), LV_DISPLAY_RENDER_MODE_PARTIAL);
-  //lv_disp_set_rotation(disp, LV_DISPLAY_ROTATION_0);
-  // 4. LVGL Touch regisztráció
+  
   lv_indev_t *indev = lv_indev_create();
   lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
   lv_indev_set_read_cb(indev, my_touchpad_read);
 
-  // 5. Felület megrajzolása
+  
   lv_obj_set_style_bg_opa(lv_layer_bottom(), LV_OPA_COVER, LV_PART_MAIN);
   lv_obj_set_style_bg_color(lv_layer_bottom(), lv_color_white(), LV_PART_MAIN);
 
@@ -171,13 +168,12 @@ void setup() {
   lv_obj_set_style_text_font(lbl_header, &lv_font_montserrat_18, LV_PART_MAIN);
   lv_obj_align(lbl_header, LV_ALIGN_TOP_LEFT, 5, 3);
 
-  go_touch();  // Start with touchpad test, nice when evaluating new boards
+  go_main();  // Start with touchpad test, nice when evaluating new boards
 
   Serial.println("LVGL rendszer kesz.");
 }
 
 void loop() {
-  // LVGL időzítő kezelő hívása (frissíti a képet és kezeli a touch-ot)
   lv_timer_handler();
   delay(5);
 }
@@ -212,7 +208,6 @@ lv_obj_t *scr_main = nullptr;
 
 void go_main() {
   if (!scr_main) {
-    // if screen doesn't exist yet, create it and its children
     scr_main = new_screen();
 
     lv_obj_t *btn_touch = lv_button_create(scr_main);
@@ -225,6 +220,7 @@ void go_main() {
       LV_EVENT_CLICKED, NULL);
   }
 
+
   lv_label_set_text(lbl_header, "LVGL_ST7262_touch_demo");  // screen header
   lv_obj_add_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);            // disable exit, already at main screen
   lv_screen_load(scr_main);                                 // Tell LVGL to load as active screen
@@ -235,8 +231,6 @@ void go_main() {
 //
 
 lv_obj_t *scr_touch;
-
-// global because used in callback.
 lv_obj_t *horizontal;
 lv_obj_t *vertical;
 lv_obj_t *x_lbl = nullptr;  // ← új globális változó
@@ -301,8 +295,7 @@ void go_touch() {
       },
       LV_EVENT_ALL, NULL);
   }
-
-  if (x_lbl) lv_label_set_text(x_lbl, "");
+  
   lv_obj_add_flag(horizontal, LV_OBJ_FLAG_HIDDEN);
   lv_obj_add_flag(vertical, LV_OBJ_FLAG_HIDDEN);
   lv_obj_clear_flag(btn_exit, LV_OBJ_FLAG_HIDDEN);
