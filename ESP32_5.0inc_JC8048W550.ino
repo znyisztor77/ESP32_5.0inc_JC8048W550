@@ -7,13 +7,14 @@
 
 /* --- Display settings --- */
 #define GFX_BL 2
+
+#define SCREEN_ROTATION 3
 /*ROTATION:
 0 : [USB_LEFT] 
 1 : [USB_DOWN]  
 2 : [USB_RIGHT]
 3 : [USB_UP]
 */
-#define ROTATION 3
 Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
   40 /* DE */, 41 /* VSYNC */, 39 /* HSYNC */, 42 /* PCLK */,
   45 /* R0 */, 48 /* R1 */, 47 /* R2 */, 21 /* R3 */, 14 /* R4 */,
@@ -27,7 +28,7 @@ Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
 //14000000 /* prefer_speed */ not vibrate the screen
 
 Arduino_RGB_Display *gfx = new Arduino_RGB_Display(
-  800/* width */, 480 /* height */, rgbpanel, ROTATION /* rotation */, true /* auto_flush */);
+  800/* width */, 480 /* height */, rgbpanel, SCREEN_ROTATION /* rotation */, true /* auto_flush */);
 
 /* 
 -gfx 800x480 rotaion 0 és ROTATION_INVERTED alap (teljes kijelző) lv_display_t *disp = lv_display_create(800, 480); teljes kijelző! [USB_LEFT]
@@ -94,7 +95,7 @@ void setup() {
 
   Wire.begin(TOUCH_SDA, TOUCH_SCL);
   ts.begin();
-  switch(ROTATION){
+  switch(SCREEN_ROTATION){
     case 1:
       ts.setRotation(ROTATION_RIGHT); //[USB_DOWN] 
       break;
@@ -123,7 +124,7 @@ void setup() {
   draw_buf = (uint16_t *)heap_caps_malloc(DRAW_BUF_SIZE * sizeof(uint16_t), MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
   lv_display_t *disp;
  //Screen rotation
-  if(ROTATION == 0 || ROTATION ==2){
+  if(SCREEN_ROTATION == 0 || SCREEN_ROTATION ==2){
     disp = lv_display_create(800, 480);
   }
   else{
